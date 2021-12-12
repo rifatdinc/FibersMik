@@ -2,6 +2,7 @@ package routeros
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"time"
 
@@ -18,12 +19,12 @@ func Router_Nmap(ip, ports string) string {
 		nmap.WithContext(ctx),
 	)
 	if err != nil {
-		log.Fatalf("unable to create nmap scanner: %v", err)
+		fmt.Println("unable to create nmap scanner:", err)
 	}
 	result, warnings, err := scanner.Run()
 
 	if err != nil {
-		log.Fatalf("unable to run nmap scan: %v", err)
+		fmt.Println("unable to run nmap scan: ", err)
 	}
 	if warnings != nil {
 		log.Printf("Warnings: \n %v", warnings)
@@ -34,13 +35,18 @@ func Router_Nmap(ip, ports string) string {
 
 func forHost(s *nmap.Run) string {
 	State := ""
-	for _, host := range s.Hosts {
-		if len(host.Ports) == 0 || len(host.Addresses) == 0 {
-			continue
+	if s != nil {
+		for _, host := range s.Hosts {
+			if len(host.Ports) == 0 || len(host.Addresses) == 0 {
+				continue
+			}
+			for _, port := range host.Ports {
+				State = port.State.String()
+			}
 		}
-		for _, port := range host.Ports {
-			State = port.State.String()
-		}
+		return State
+	} else {
+		return "No host found"
 	}
-	return State
+
 }

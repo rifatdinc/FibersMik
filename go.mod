@@ -9,6 +9,7 @@ require (
 
 require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
+	github.com/go-telegram-bot-api/telegram-bot-api/v5 v5.5.0 // indirect
 	github.com/gofiber/fiber/v2 v2.22.0 // indirect
 	github.com/gosnmp/gosnmp v1.34.0 // indirect
 	github.com/jlaffaye/ftp v0.0.0-20211117213618-11820403398b // indirect
